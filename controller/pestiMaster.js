@@ -32,7 +32,7 @@ const callDoProc = async (requestUrl) => {
 
 app.post('/pestiMaster', function(req, res) {
     const HOST = 'http://pis.rda.go.kr/openApi'
-    const SERVICE_KEY = '2019a21383c05e19f1bb3384d78b5c5c71df'
+    const SERVICE_KEY = 'sorry'
 
     const item = req.body;
     let condition = '';
