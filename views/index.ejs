@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <% include ./inc/head.ejs %>
+  <title>Ethereum</title>
+  <%# <link rel="stylesheet" type="text/css" href="styles/blog.css"> %>
+</head>
+    
+<body class="theme-light" data-background="none" data-highlight="blue2">
+  <div id="page">
+    <% include ./inc/header.ejs %>
+    <% include ./inc/footer.ejs %>
+
+    <div class="page-content header-clear-medium">
+      <div class="content">
+        <div id="events"></div>
+        <div id="list"></div>
+        <div class="clear"></div>
+      </div>
+
+    </div>
+    <!-- Page Content Class Ends Here-->
+    <% include ./inc/menu.ejs %>
+    <div class="menu-hider"></div>
+  </div>
+
+  <div id="template" style="display:none;">
+    <div class="col-sm-6 col-md-4 col-lg-3">
+      <div class="panel panel-success panel-realEstate">
+        <div class="panel-heading">
+          <h3 class="panel-title">사용자</h3>
+        </div>
+        <div class="panel-body">
+          <img style="width:100%;" src="">
+          <br/><br/>
+          <strong>아이디</strong>: <span class="id"></span><br/>
+          <strong>이름</strong>: <span class="username"></span><br/>
+          <strong>이메일</strong>: <span class="email"></span><br/>
+          <strong>핸드폰</strong>: <span class="phone"></span><br/>
+          <button class="btn btn-info btn-buy" type="button" data-toggle="modal" data-target="#setModal">New Message</button>
+          <button class="btn btn-info btn-buy" type="button" data-toggle="modal" data-target="#getModal">View</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" tabindex="-1" role="dialog" id="setModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">메세지를 입력하세요</h4>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="id" />
+          <input type="hidden" id="username" />
+          <input type="text" class="form-control" id="description" placeholder="메세지" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+          <button type="button" class="btn btn-primary" onclick="Eth.setMessage(); return false;">제출</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div class="modal fade" tabindex="-1" role="dialog" id="getModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">메세지</h4>
+        </div>
+        <div class="modal-body">
+          <strong>이름</strong>: <span id="username"></span><br/>
+          <input type="text" class="form-control" id="message" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <script type="text/javascript" src="/scripts/jquery.js"></script>
+  <script type="text/javascript" src="/scripts/plugins.js"></script>
+  <script type="text/javascript" src="/scripts/custom.js"></script>
+  <script src="/scripts/common.js"></script>
+  <script src="/scripts/bootstrap.min.js"></script>
+  <script src="/scripts/web3.min.js"></script>
+  <script src="/scripts/truffle-contract.js"></script>
+  <script src="/scripts/utf8.js"></script>
+  <script src="/scripts/eth.js"></script>
+  <script>
+    $(function() {
+      $.ajax({
+        url:'http://localhost:3000/user/list',
+        type : 'GET',
+        success:function(data){
+          if (data !== null){
+            var list = $('#list');
+            var template = $('#template');
+    
+            for (i=0; i<data.length; i++){
+              // template.find('img').attr('src', data[i].picture);
+              template.find('.id').text(data[i].id);
+              template.find('.username').text(data[i].name);
+              template.find('.email').text(data[i].email);
+              template.find('.phone').text(data[i].phone);
+              
+              list.append(template.html());
+            }
+          }
+        },
+        error:function(data){
+          message("data not found!")
+        }
+      })
+    });
+  </script>
+</body>
